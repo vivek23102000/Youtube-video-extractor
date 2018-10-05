@@ -1,0 +1,73 @@
+<html>
+<head>
+<style>
+.Videos{
+display:flex;
+flex-direction:row;
+flex-wrap:wrap;
+}
+*{
+font-family:sans-serif;
+line-height:22px;
+font-size:15px;
+}
+@media (max-width:1000px){
+.Videos{
+display:flex;
+flex-direction:column;
+flex-wrap:wrap;
+margin:5px;
+}
+iframe{
+margin:20px;
+padding:20px;
+}
+}
+</style>
+</head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<body onload="removeUnwantedIframe();">
+<div class="Videos">
+
+</div>
+<div>&copy; Vivek Tiwari</div>
+<div>The owner of this efficient, short, powerful logic and mechanism is MR. Vivek Tiwari first concern the owner and  obtain the permission before copying or redistributing the code in any manner. Copying the code without any permission is a punishable crime.</div>
+<script>
+var i = -1;
+var link;
+var id;
+var vid;
+var channelID = prompt("PLEASE ENTER A VALID ID OF YOUR CHANNEL");
+
+window.setTimeout(startvideoembedding, 3000);
+function startvideoembedding(){
+var inter = window.setInterval(function(){
+if(i >=5){
+clearInterval(inter);
+}
+
+
+$.getJSON('https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.youtube.com%2Ffeeds%2Fvideos.xml%3Fchannel_id%3D'+channelID, function(data) {
+   link = data.items[i].link;
+   id = link.substr(link.indexOf("=")+1);
+
+});
+   vid = document.createElement("iframe");
+   vid.id="youtube_video"+i;
+   document.querySelector(".Videos").appendChild(vid);
+    $("#youtube_video" + i).attr("src","https://youtube.com/embed/"+id + "?controls=1&modestbranding=1");
+i = i + 1;
+}, 1000);
+   console.log(i);
+
+}
+
+window.setTimeout(function (){
+var uselessiframe = document.getElementById("youtube_video-1");
+document.querySelector(".Videos").removeChild(uselessiframe);
+}, 5000);
+
+</script>
+</body>
+</html>
